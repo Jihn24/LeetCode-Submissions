@@ -29,3 +29,6 @@ public class Solution {
         return integer - 1;
     }
 }
+
+// Would like to try the follow up of achieving O(n) time complexity. 
+// This solution is O(n + k) because in the worst case we have to iterate through the entire array and then count up to k missing integers.
