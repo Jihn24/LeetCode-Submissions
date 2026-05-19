@@ -27,9 +27,9 @@ class Solution {
         }
         return s.substring((center_index - max_len) / 2, (center_index + max_len) / 2);
     }
-}
 
-public static void main(String[] args) {
-    Solution solution = new Solution();
-    System.out.println(solution.longestPalindrome("babad")); // "aba" or "bab"
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        System.out.println(solution.longestPalindrome("babad")); // "aba" or "bab"
+    }
 }
