@@ -5,33 +5,42 @@
 // You are also given an array queries where queries[j] = [uj, vj]. For the jth query, you should answer whether course uj is a prerequisite of course vj or not.
 // Return a boolean array answer, where answer[j] is the answer to the jth query.
 
-var solution = new Solution();
-var result = solution.CheckIfPrerequisite(2, new int[][] { new int[] {1, 0} }, new int[][] { new int[] {0, 1}, new int[] {1, 0} });
-Console.WriteLine(result[0] + ", " + result[1]);
 
-// Second attempt, I followed a tutorial explaining the Floyd-Warshall algorithm, which is a dynamic programming algorithm used 
-// to find the shortest paths in a weighted graph with positive or negative edge weights. 
-// In this case, we are using it to find if there is a path from one course to another.
-public class Solution {
-    public IList<bool> CheckIfPrerequisite(int numCourses, int[][] prerequisites, int[][] queries) {
-        bool[,] relations = new bool[numCourses,numCourses];
-        var output = new List<bool>();
-
-        foreach (var course in prerequisites) {
-            relations[course[0],course[1]] = true;
+namespace CourseScheduler {
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var solution = new Solution();
+            var result = solution.CheckIfPrerequisite(2, new int[][] { new int[] {1, 0} }, new int[][] { new int[] {0, 1}, new int[] {1, 0} });
+            Console.WriteLine(result[0] + ", " + result[1]);
         }
+    }
 
-        for (int i = 0; i < numCourses; i++) {
-            for (int src = 0; src < numCourses; src++) {
-                for (int target = 0; target < numCourses; target++) {
-                    relations[src, target] = relations[src, target] || (relations[src, i] && relations[i, target]);
+    // Second attempt, I followed a tutorial explaining the Floyd-Warshall algorithm, which is a dynamic programming algorithm used 
+    // to find the shortest paths in a weighted graph with positive or negative edge weights. 
+    // In this case, we are using it to find if there is a path from one course to another.
+    class Solution {
+        public IList<bool> CheckIfPrerequisite(int numCourses, int[][] prerequisites, int[][] queries) {
+            bool[,] relations = new bool[numCourses,numCourses];
+            var output = new List<bool>();
+
+            foreach (var course in prerequisites) {
+                relations[course[0],course[1]] = true;
+            }
+
+            for (int i = 0; i < numCourses; i++) {
+                for (int src = 0; src < numCourses; src++) {
+                    for (int target = 0; target < numCourses; target++) {
+                        relations[src, target] = relations[src, target] || (relations[src, i] && relations[i, target]);
+                    }
                 }
             }
+            foreach(var query in queries) {
+                output.Add(relations[query[0], query[1]]);
+            }
+            return output;
         }
-        foreach(var query in queries) {
-            output.Add(relations[query[0], query[1]]);
-        }
-        return output;
     }
 }
 

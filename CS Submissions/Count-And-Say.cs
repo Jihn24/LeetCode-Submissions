@@ -10,39 +10,45 @@
 // Given a positive integer n, return the nth term of the count-and-say sequence.
 
 using System.Text;
-
-var solution = new Solution();
-var result = solution.CountAndSay(5);
-Console.WriteLine(result);
-
-public class Solution {
-    public string RLE(string s) {
-        StringBuilder sb = new StringBuilder("");
-        int r = 0;
-        int l = 0;
-        while (l + r < s.Length) {
-            if (s[l] == s[l + r]) {
-                r++;
-            }
-            else {
-                sb.Append(r);
-                sb.Append(s[l]);
-                l += r;
-                r = 0;
-            }
-            if (l + r >= s.Length) {
-                sb.Append(r);
-                sb.Append(s[l]);
-            }
+namespace CountAndSay {
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var solution = new Solution();
+            var result = solution.CountAndSay(5);
+            Console.WriteLine(result);
         }
-        return sb.ToString();
     }
-    public string CountAndSay(int n) {
-        if (n == 1) return "1";
-        string output = "1";
-        for (int i = 0; i < n - 1; i++) {
-            output = RLE(output);
+    class Solution {
+        public string RLE(string s) {
+            StringBuilder sb = new StringBuilder("");
+            int r = 0;
+            int l = 0;
+            while (l + r < s.Length) {
+                if (s[l] == s[l + r]) {
+                    r++;
+                }
+                else {
+                    sb.Append(r);
+                    sb.Append(s[l]);
+                    l += r;
+                    r = 0;
+                }
+                if (l + r >= s.Length) {
+                    sb.Append(r);
+                    sb.Append(s[l]);
+                }
+            }
+            return sb.ToString();
         }
-        return output;
+        public string CountAndSay(int n) {
+            if (n == 1) return "1";
+            string output = "1";
+            for (int i = 0; i < n - 1; i++) {
+                output = RLE(output);
+            }
+            return output;
+        }
     }
 }

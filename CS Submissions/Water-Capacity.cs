@@ -5,24 +5,30 @@
 // Return the maximum amount of water a container can store.
 // Notice that you may not slant the container
 
-var solution = new Solution();
-var result = solution.MaxArea(new int[] {1,8,6,2,5,4,8,3,7});
-Console.WriteLine(result); // 49
-
-public class Solution {
-    public int MaxArea(int[] height) {
-        int l = 0;
-        int r = height.Length - 1;
-        int output = 0;
-        while (l < r) {
-            output = Math.Max(output, (Math.Min(height[l], height[r]) * (r - l)));
-            if (height[l] > height[r]) {
-                r--;
-            }
-            else {
-                l++;
-            }
+namespace WaterCapacity {
+    class Program {
+        static void Main(string[] args) {
+            var solution = new Solution();
+            var result = solution.MaxArea(new int[] {1,8,6,2,5,4,8,3,7});
+            Console.WriteLine(result); // 49
         }
-        return output;
+    }
+
+    class Solution {
+        public int MaxArea(int[] height) {
+            int l = 0;
+            int r = height.Length - 1;
+            int output = 0;
+            while (l < r) {
+                output = Math.Max(output, (Math.Min(height[l], height[r]) * (r - l)));
+                if (height[l] > height[r]) {
+                    r--;
+                }
+                else {
+                    l++;
+                }
+            }
+            return output;
+        }
     }
 }

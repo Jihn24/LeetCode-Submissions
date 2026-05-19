@@ -5,31 +5,36 @@
 // Return an integer denoting the minimum number of rectangles needed so that each point is covered by at least one rectangle.
 // Note: A point may be covered by more than one rectangle.
 
-var solution = new Solution();
-var result = solution.MinRectanglesToCoverPoints([[1, 2], [2, 3], [3, 4]], 1);
-Console.WriteLine(result);
-
-public class Solution {
-    public int MinRectanglesToCoverPoints(int[][] points, int w) {
-        int l = 0;
-        int r = 1;
-        int i = 0;
-        int count = 1;
-        List<int> pointArray = new List<int>();
-        foreach (int[] point in points) {
-            pointArray.Add(point[0]);
+namespace MinRectangles {
+    class Program {
+        static void Main(string[] args) {
+            var solution = new Solution();
+            var result = solution.MinRectanglesToCoverPoints([[1, 2], [2, 3], [3, 4]], 1);
+            Console.WriteLine(result);
         }
-        if (pointArray.Count() == 0) return 0;
-        pointArray.Sort();
-        while (r < pointArray.Count()) {
-            if (pointArray[l] + w >= pointArray[r]) {
-                r++;
-            } else {
-                l = r;
-                r++;
-                count++;
+    }
+    class Solution {
+        public int MinRectanglesToCoverPoints(int[][] points, int w) {
+            int l = 0;
+            int r = 1;
+            int i = 0;
+            int count = 1;
+            List<int> pointArray = new List<int>();
+            foreach (int[] point in points) {
+                pointArray.Add(point[0]);
             }
+            if (pointArray.Count() == 0) return 0;
+            pointArray.Sort();
+            while (r < pointArray.Count()) {
+                if (pointArray[l] + w >= pointArray[r]) {
+                    r++;
+                } else {
+                    l = r;
+                    r++;
+                    count++;
+                }
+            }
+            return count;
         }
-        return count;
     }
 }

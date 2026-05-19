@@ -8,45 +8,51 @@
 // 5. Delete both the prefix and the suffix from the string s.
 // Return the minimum length of s after performing the above operation any number of times (possibly zero times). 
 
-var solution = new Solution();
-var result = solution.MinimumLength("aabccabba");
-Console.WriteLine(result);
-
-public class Solution {
-    public int MinimumLength(string s) {
-        int l = 0;
-        int r = s.Length - 1;
-        char letter;
-        if (r == -1) {
-            return 0;
-        } 
-        else if (r == 0) {
-            return 1;
+namespace MinStringDeletingEnds {
+    class Program {
+        static void Main(string[] args) {
+            var solution = new Solution();
+            var result = solution.MinimumLength("aabccabba");
+            Console.WriteLine(result);
         }
-        while (l < r) {
-            if (s[l] == s[r]) {
-                letter = s[l];
-                if (r == 1) {
-                    return 0;
-                }
-                while (s[r] == letter) {
-                    r--;
-                    if (r == 0) {
+    }
+
+    class Solution {
+        public int MinimumLength(string s) {
+            int l = 0;
+            int r = s.Length - 1;
+            char letter;
+            if (r == -1) {
+                return 0;
+            } 
+            else if (r == 0) {
+                return 1;
+            }
+            while (l < r) {
+                if (s[l] == s[r]) {
+                    letter = s[l];
+                    if (r == 1) {
                         return 0;
                     }
+                    while (s[r] == letter) {
+                        r--;
+                        if (r == 0) {
+                            return 0;
+                        }
+                    }
+                    while (s[l] == letter) {
+                        l++;
+                    }  
+                            
                 }
-                while (s[l] == letter) {
-                    l++;
-                }  
-                           
+                else {
+                    break;
+                }
             }
-            else {
-                break;
+            if (r - l < 0) {
+                return 0;
             }
+            return r - l + 1;
         }
-        if (r - l < 0) {
-            return 0;
-        }
-        return r - l + 1;
     }
 }

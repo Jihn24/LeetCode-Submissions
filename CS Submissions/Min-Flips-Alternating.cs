@@ -6,31 +6,37 @@
 // The string is called alternating if no two adjacent characters are equal. For example, the string "010" 
 // is alternating, while the string "0100" is not.
 
-var solution = new Solution();
-var result = solution.MinFlips("111000");
-Console.WriteLine(result);
-
-public class Solution {
-    public int MinFlips(string s) {
-        int missZero = 0;
-        int missOne = 0;    
-        int current = 0; 
-        int n = s.Length;
-        int output = n; 
-        string doubleS = s + s;
-        for (int i = 0; i < doubleS.Length; i++) {
-            
-            current = (int)Char.GetNumericValue(doubleS[i]);
-            if (current == i % 2) missOne++;      // Pattern 01010...      
-            else missZero++;                      // Pattern 10101...
-            if (i >= n) {
-                if (current == (i - n) % 2) missOne--;
-                else missZero--;
-            }
-            if ( i >= n - 1) {
-                output = Math.Min(output, Math.Min(missOne, missZero));
-            }
+namespace MinFlipsAlternating {
+    class Program {
+        static void Main(string[] args) {
+            var solution = new Solution();
+            var result = solution.MinFlips("111000");
+            Console.WriteLine(result);
         }
-        return output;
+    }
+
+    class Solution {
+        public int MinFlips(string s) {
+            int missZero = 0;
+            int missOne = 0;    
+            int current = 0; 
+            int n = s.Length;
+            int output = n; 
+            string doubleS = s + s;
+            for (int i = 0; i < doubleS.Length; i++) {
+                
+                current = (int)Char.GetNumericValue(doubleS[i]);
+                if (current == i % 2) missOne++;      // Pattern 01010...      
+                else missZero++;                      // Pattern 10101...
+                if (i >= n) {
+                    if (current == (i - n) % 2) missOne--;
+                    else missZero--;
+                }
+                if ( i >= n - 1) {
+                    output = Math.Min(output, Math.Min(missOne, missZero));
+                }
+            }
+            return output;
+        }
     }
 }
