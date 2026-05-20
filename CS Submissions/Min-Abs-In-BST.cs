@@ -11,34 +11,59 @@ namespace MinAbsInBST {
             Console.WriteLine(result);
         }
     }
-    
-    class Solution {        
-        public List<int> DFS(TreeNode root, List<int> stored) {
-            stored.Add(root.val);
 
+    // Second attempt, O(n) time and O(1) space because we are not storing the values of the nodes in a list, we are just keeping track of the previous node and the minimum difference.
+    class Solution {
+        TreeNode prev = null;
+        int output = Int32.MaxValue;
+        public void DFS(TreeNode root) {
+            
             if (root.left != null) {
-                DFS(root.left, stored);
+                DFS(root.left);                
             }   
-
+            if (prev != null) {
+                output = Math.Min(output, root.val - prev.val);
+            }            
+            prev = root;
             if (root.right != null) {
-                DFS(root.right, stored);
-            }  
-            return stored;
+                DFS(root.right);
+            }              
         }
-            
+        
         public int GetMinimumDifference(TreeNode root) {
-            
-            var list = new List<int>();      
-            var stored = DFS(root, list);
-            stored.Sort();
-            int output = stored[1] - stored[0];  
-            for (int i = 0; i < stored.Count() - 1; i++) {
-                output = Math.Min(output, stored[i + 1] - stored[i]);
-            }       
-
+            DFS(root); 
             return output;
         }
     }
+
+    // First attempt, O(n) time and O(n) space because we are storing the values of the nodes in a list and then sorting the list to find the minimum difference.
+    // class Solution {        
+    //     public List<int> DFS(TreeNode root, List<int> stored) {
+    //         stored.Add(root.val);
+
+    //         if (root.left != null) {
+    //             DFS(root.left, stored);
+    //         }   
+
+    //         if (root.right != null) {
+    //             DFS(root.right, stored);
+    //         }  
+    //         return stored;
+    //     }
+            
+    //     public int GetMinimumDifference(TreeNode root) {
+            
+    //         var list = new List<int>();      
+    //         var stored = DFS(root, list);
+    //         stored.Sort();
+    //         int output = stored[1] - stored[0];  
+    //         for (int i = 0; i < stored.Count() - 1; i++) {
+    //             output = Math.Min(output, stored[i + 1] - stored[i]);
+    //         }       
+
+    //         return output;
+    //     }
+    // }
 
     // Definition for a binary tree node.
     class TreeNode {
