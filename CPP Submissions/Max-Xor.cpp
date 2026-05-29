@@ -7,26 +7,22 @@
 // queries[j] XOR nums[n - 1]). Return an array answer where answer.length == m 
 // and answer[j] is the answer to the jth query.
 
-namespace MaxXOR {
-    class Program {
-        static void Main(string[] args) {
-            var solution = new Solution();
-            var result = solution.GetMaximumXor(new int[] { 0, 1, 2, 3 }, 2);
-            Console.WriteLine(string.Join(", ", result));
-        }
-    }
-    public class Solution {
-    public int[] GetMaximumXor(int[] nums, int maximumBit) {
-        int[] k = new int[nums.Length];
-        int i = nums.Length - 1;
+#include <vector>
+#include <cmath>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> getMaximumXor(vector<int>& nums, int maximumBit) {
+        vector<int> k(nums.size());
+        int i = nums.size() - 1;
         int xOR = 0;
-        int maxK = (int)Math.Pow(2, maximumBit) - 1;
-        for (int j = 0; j < nums.Length; j++) {           
+        int maxK = (int)pow(2, maximumBit) - 1;
+        for (int j = 0; j < nums.size(); j++) {           
             xOR ^= nums[j]; 
-            k[i] = (maxK) ^ xOR;
+            k[i] = ((maxK) ^ xOR);
             i--;         
         }
         return k;
     }
-}
-}
+};

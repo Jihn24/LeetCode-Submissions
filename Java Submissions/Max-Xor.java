@@ -7,26 +7,27 @@
 // queries[j] XOR nums[n - 1]). Return an array answer where answer.length == m 
 // and answer[j] is the answer to the jth query.
 
-namespace MaxXOR {
-    class Program {
-        static void Main(string[] args) {
-            var solution = new Solution();
-            var result = solution.GetMaximumXor(new int[] { 0, 1, 2, 3 }, 2);
-            Console.WriteLine(string.Join(", ", result));
-        }
-    }
-    public class Solution {
-    public int[] GetMaximumXor(int[] nums, int maximumBit) {
-        int[] k = new int[nums.Length];
-        int i = nums.Length - 1;
+class Solution {
+    public int[] getMaximumXor(int[] nums, int maximumBit) {
+        int[] k = new int[nums.length];
+        int i = nums.length - 1;
         int xOR = 0;
-        int maxK = (int)Math.Pow(2, maximumBit) - 1;
-        for (int j = 0; j < nums.Length; j++) {           
+        int maxK = (int)Math.pow(2, maximumBit) - 1;
+        for (int j = 0; j < nums.length; j++) {           
             xOR ^= nums[j]; 
             k[i] = (maxK) ^ xOR;
             i--;         
         }
         return k;
     }
-}
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        int[] nums = {0,1,1,3};
+        int maximumBit = 2;
+        int[] result = solution.getMaximumXor(nums, maximumBit);
+        for (int i : result) {
+            System.out.println(i);
+        }
+    }
 }
