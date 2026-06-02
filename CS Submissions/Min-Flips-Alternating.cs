@@ -15,7 +15,9 @@ namespace MinFlipsAlternating {
         }
     }
 
-    class Solution {
+    // Second solution is faster than the first one because of the way we convert char to int.
+
+    public class Solution {
         public int MinFlips(string s) {
             int missZero = 0;
             int missOne = 0;    
@@ -24,10 +26,10 @@ namespace MinFlipsAlternating {
             int output = n; 
             string doubleS = s + s;
             for (int i = 0; i < doubleS.Length; i++) {
-                
-                current = (int)Char.GetNumericValue(doubleS[i]);
-                if (current == i % 2) missOne++;      // Pattern 01010...      
-                else missZero++;                      // Pattern 10101...
+                // Pattern 01010...
+                current = (doubleS[i]) - '0';
+                if (current == i % 2) missOne++;            
+                else missZero++;
                 if (i >= n) {
                     if (current == (i - n) % 2) missOne--;
                     else missZero--;
@@ -39,4 +41,31 @@ namespace MinFlipsAlternating {
             return output;
         }
     }
+
+    // First attempt, slow and memory intensive because of the way we convert char to int.
+
+    // class Solution {
+    //     public int MinFlips(string s) {
+    //         int missZero = 0;
+    //         int missOne = 0;    
+    //         int current = 0; 
+    //         int n = s.Length;
+    //         int output = n; 
+    //         string doubleS = s + s;
+    //         for (int i = 0; i < doubleS.Length; i++) {
+                
+    //             current = (int)Char.GetNumericValue(doubleS[i]);
+    //             if (current == i % 2) missOne++;      // Pattern 01010...      
+    //             else missZero++;                      // Pattern 10101...
+    //             if (i >= n) {
+    //                 if (current == (i - n) % 2) missOne--;
+    //                 else missZero--;
+    //             }
+    //             if ( i >= n - 1) {
+    //                 output = Math.Min(output, Math.Min(missOne, missZero));
+    //             }
+    //         }
+    //         return output;
+    //     }
+    // }
 }
