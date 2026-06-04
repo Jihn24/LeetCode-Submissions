@@ -21,75 +21,121 @@ namespace GroupsOfFarmland {
             }
         }
     }
-    class Solution {
+
+    // Second attempt is much faster and simpler. It finds the bottom right corner of the farmland and sets the land to trees so it won't be searched again.
+
+    public class Solution {
         public int[][] FindFarmland(int[][] land) {
             List<int[]> output = new List<int[]>();
             int m = land.Length;
             int n = land[0].Length;
-            bool farmRight = false;
-            bool farmDown = false;
-            int r1 = 0;
-            int r2 = 0;
-            int c1 = 0;
-            int c2 = 0;
-            bool group = false;
             for (int i = 0; i < m; i++) {            
                 for (int j = 0; j < n; j++) {
                     // If farmland start a search for the size and set the land to trees for future loops to not search it again
                     if (land[i][j] == 1) {
-                        r1 = i;
-                        c1 = j;
-                        r2 = r1;
-                        c2 = c1;
-                        farmRight = true;
-                        farmDown = true;
-                        group = true;
-                    }                
-                    // Check to the right until no longer farm
-                    while (farmRight) {
-                        if (r2 + 1 < land.Length) {
-                            if (land[r2 + 1][c2] == 1) {
-                                r2++;
-                            }
-                            else {
-                                farmRight = false;
-                            }
-                        } else {
-                            farmRight = false;
-                        }
-                    }
-                    // Check row below from left to furthest right
-                    while (farmDown) {
-                        if (c2 + 1 < land[r2].Length) {
-                            if (land[r2][c2 + 1] == 1) {
-                                c2++;
-                            }
-                            else {
-                                farmDown = false;
-                            }
-                        }
-                        else {
-                            farmDown = false;
-                        }
-                    }
-                    for (int k = r1; k <= r2; k++) {
-                        for (int l = c1; l <= c2; l++) {
-                            land[k][l] = 0;
-                        }
-                    }
-                    // Group is start point to furthest right and down
-                    if (group) {
-                        output.Add([r1, c1, r2, c2]);
-                        group = false;
-                    }
-                    if (r2 == land.Length - 1 && c2 == land[0].Length - 1) {
-                        goto ExitLoops;
-                    }
+                        int[] coords = FindBottomRight(land, i, j);
+                        output.Add(coords);
+                    } 
                 }
             }
-            ExitLoops:
             int[][] outputList = output.ToArray();
             return outputList;
-        }    
+        }   
+
+        public int[] FindBottomRight(int[][] land, int row, int col) {
+            int m = land.Length;
+            int n = land[0].Length;
+
+            int r = row;
+            int c = col;
+
+            while(r < m && land[r][col] == 1) {
+                r++;
+            }
+            while(c < n && land[row][c] == 1) {
+                c++;
+            }
+
+            for (int i = row; i < r; i++) {
+                for (int j = col; j < c; j++) {
+                    land[i][j] = 0;
+                }
+            }
+            return new int[] {row, col, r - 1, c - 1 };
+        } 
     }
+
+    // First attempt was exceedingly slow and complex.
+
+    // class Solution {
+    //     public int[][] FindFarmland(int[][] land) {
+    //         List<int[]> output = new List<int[]>();
+    //         int m = land.Length;
+    //         int n = land[0].Length;
+    //         bool farmRight = false;
+    //         bool farmDown = false;
+    //         int r1 = 0;
+    //         int r2 = 0;
+    //         int c1 = 0;
+    //         int c2 = 0;
+    //         bool group = false;
+    //         for (int i = 0; i < m; i++) {            
+    //             for (int j = 0; j < n; j++) {
+    //                 // If farmland start a search for the size and set the land to trees for future loops to not search it again
+    //                 if (land[i][j] == 1) {
+    //                     r1 = i;
+    //                     c1 = j;
+    //                     r2 = r1;
+    //                     c2 = c1;
+    //                     farmRight = true;
+    //                     farmDown = true;
+    //                     group = true;
+    //                 }                
+    //                 // Check to the right until no longer farm
+    //                 while (farmRight) {
+    //                     if (r2 + 1 < land.Length) {
+    //                         if (land[r2 + 1][c2] == 1) {
+    //                             r2++;
+    //                         }
+    //                         else {
+    //                             farmRight = false;
+    //                         }
+    //                     } else {
+    //                         farmRight = false;
+    //                     }
+    //                 }
+    //                 // Check row below from left to furthest right
+    //                 while (farmDown) {
+    //                     if (c2 + 1 < land[r2].Length) {
+    //                         if (land[r2][c2 + 1] == 1) {
+    //                             c2++;
+    //                         }
+    //                         else {
+    //                             farmDown = false;
+    //                         }
+    //                     }
+    //                     else {
+    //                         farmDown = false;
+    //                     }
+    //                 }
+    //                 for (int k = r1; k <= r2; k++) {
+    //                     for (int l = c1; l <= c2; l++) {
+    //                         land[k][l] = 0;
+    //                     }
+    //                 }
+    //                 // Group is start point to furthest right and down
+    //                 if (group) {
+    //                     output.Add([r1, c1, r2, c2]);
+    //                     group = false;
+    //                 }
+    //                 if (r2 == land.Length - 1 && c2 == land[0].Length - 1) {
+    //                     goto ExitLoops;
+    //                 }
+    //             }
+    //         }
+    //         ExitLoops:
+    //         int[][] outputList = output.ToArray();
+    //         return outputList;
+    //     }    
+    // }
 }
