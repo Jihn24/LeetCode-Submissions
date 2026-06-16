@@ -13,51 +13,82 @@ namespace MaxImportanceRoads {
         }
     }
 
-    class Solution {
+    // Second attempt at a solution, this one is more efficient and uses less memory. Instead of using a dictionary to store the cities and their values,
+    // we can use an array to store the number of roads connected to each city. We then sort the array and assign values to the cities based on their position 
+    // in the sorted array. Finally, we loop through each road and sum the importance using the array.
+
+    public class Solution {
         public long MaximumImportance(int n, int[][] roads) {
             long output = 0;
-            Dictionary<int, int> cities = new Dictionary<int, int>(n);
+            int[] cities = new int[n];
 
-            // Loop through roads counting each occurance of each city, assign value to dict
+            // Loop through roads counting each occurance of each city, assign value to list
             foreach (var road in roads) {
-                if (cities.ContainsKey(road[0])) {
-                    cities[road[0]]++;
-                }
-                else {
-                    cities[road[0]] = 1;
-                }
-                if (cities.ContainsKey(road[1])) {
-                    cities[road[1]]++;
-                }
-                else {
-                    cities[road[1]] = 1;
-                }
-            }
-
-            // Fill in cities without any roads connected to be 0
-
-            for (int j = 0; j < n; j++) {
-                if (!cities.ContainsKey(j)) {
-                    cities[j] = 0;
-                }
+                cities[road[0]]++;
+                cities[road[1]]++;
             }
 
             // Order the cities and then assign values 1-n
+            Array.Sort(cities);
 
-            var citiesOrdered = cities.OrderBy(entry => entry.Value).ToList();
-            int i = 1;
-
-            foreach (var city in citiesOrdered) {
-                cities[city.Key] = i;
-                i++;
-            }
-
-            // Loop through each road and sum the two cities using the dictionary key value pairs
-
-            foreach (var road in roads) {
-                output += cities[road[0]] + cities[road[1]];
+            // Loop through each road and sum the importance using the array
+            for (int i = 0; i < n; i++) {
+                output += (long)cities[i] * (i + 1);
             }        
+    
             return output;           
         }
     }
+
+    // First attempt at a solution, this one uses a dictionary to store the cities and their values. 
+    // We then sort the dictionary and assign values to the cities based on their position in the sorted dictionary. 
+    // Finally, we loop through each road and sum the importance using the dictionary.
+
+    // class Solution {
+    //     public long MaximumImportance(int n, int[][] roads) {
+    //         long output = 0;
+    //         Dictionary<int, int> cities = new Dictionary<int, int>(n);
+
+    //         // Loop through roads counting each occurance of each city, assign value to dict
+    //         foreach (var road in roads) {
+    //             if (cities.ContainsKey(road[0])) {
+    //                 cities[road[0]]++;
+    //             }
+    //             else {
+    //                 cities[road[0]] = 1;
+    //             }
+    //             if (cities.ContainsKey(road[1])) {
+    //                 cities[road[1]]++;
+    //             }
+    //             else {
+    //                 cities[road[1]] = 1;
+    //             }
+    //         }
+
+    //         // Fill in cities without any roads connected to be 0
+
+    //         for (int j = 0; j < n; j++) {
+    //             if (!cities.ContainsKey(j)) {
+    //                 cities[j] = 0;
+    //             }
+    //         }
+
+    //         // Order the cities and then assign values 1-n
+
+    //         var citiesOrdered = cities.OrderBy(entry => entry.Value).ToList();
+    //         int i = 1;
+
+    //         foreach (var city in citiesOrdered) {
+    //             cities[city.Key] = i;
+    //             i++;
+    //         }
+
+    //         // Loop through each road and sum the two cities using the dictionary key value pairs
+
+    //         foreach (var road in roads) {
+    //             output += cities[road[0]] + cities[road[1]];
+    //         }        
+    //         return output;           
+    //     }
+    // }
 }
